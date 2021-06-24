@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 1,
+  "id": "minecraftide",
+  "version": "${version}",
+  "name": "Minecraftide",
+  "description": "Adds ingame editors for data and resource packs",
+  "authors": [
+    "ThunderSphun"
+  ],
+  "contact": {},
+  "license": "MIT",
+  "icon": "assets/minecraftide/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "client": [
+      "com.thundersphun.minecraftide.ClientInit"
+    ]
+  },
+  "mixins": [
+    "minecraftide.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.11.6",
+    "fabric": "*",
+    "minecraft": "1.17"
+  }
+}
