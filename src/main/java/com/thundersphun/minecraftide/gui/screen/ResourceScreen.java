@@ -19,6 +19,6 @@ public class ResourceScreen extends BaseMenuScreen {
 
 	@Override
 	protected FileListWidget<ResourcePack> makeNavigationWidget(MinecraftClient client, int width, int height, int top, int bottom, int itemHeight) {
-		return new ResourceFileListWidget(client, width, height, top, bottom, itemHeight /*, file path*/);
+		return new ResourceFileListWidget(client, width, height, top, bottom, itemHeight);
 	}
 }

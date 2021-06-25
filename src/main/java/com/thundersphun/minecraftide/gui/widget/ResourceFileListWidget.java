@@ -1,11 +1,11 @@
 package com.thundersphun.minecraftide.gui.widget;
 
-import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.resource.ResourcePack;
 
 import java.io.File;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -26,6 +26,13 @@ public class ResourceFileListWidget extends FileListWidget<ResourcePack> {
 
 	@Override
 	protected List<ResourcePack> getPacks() {
-		return MinecraftClient.getInstance().getResourceManager().streamResourcePacks().collect(Collectors.toList());
+		List<ResourcePack> packs = MinecraftClient.getInstance().getResourceManager().streamResourcePacks().collect(Collectors.toList());
+		packs.addAll(new ArrayList<>(packs));
+		packs.addAll(new ArrayList<>(packs));
+		packs.addAll(new ArrayList<>(packs));
+		packs.addAll(new ArrayList<>(packs));
+		packs.addAll(new ArrayList<>(packs));
+		packs.addAll(new ArrayList<>(packs));
+		return packs;
 	}
 }

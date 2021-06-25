@@ -10,8 +10,9 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.TranslatableText;
 
 public abstract class BaseMenuScreen extends Screen {
-	private FileListWidget navigationWidget;
+	private FileListWidget<?> navigationWidget;
 	private EditorWidget editorWidget;
+	private static final int topBarHeight = 16;
 
 	public BaseMenuScreen(String title) {
 		super(new TranslatableText(title));
@@ -24,17 +25,17 @@ public abstract class BaseMenuScreen extends Screen {
 		}
 
 		int padding = 5;
+		int twoPadding = padding * 2;
+		int navigationWidth = width / 4;
+		int top = topBarHeight + padding;
+		int widgetHeight = height - top - padding;
 
-		this.navigationWidget = makeNavigationWidget(client, width / 4 - padding,
-				height - 16 / 2 - padding - padding, 16 + padding, height - padding, textRenderer.fontHeight);
+		this.navigationWidget = makeNavigationWidget(client, navigationWidth - padding,
+				widgetHeight, top, height - padding, textRenderer.fontHeight);
 		this.navigationWidget.setLeftPos(padding);
 
-		this.editorWidget = makeEditorWidget(width / 4, 16 + padding, (width / 4) * 3, height - 16 / 2 - padding - padding);
-
-		System.out.println(this.navigationWidget);
-		System.out.println(this.editorWidget);
-		System.out.println("width=" + width + ", height=" + height);
-		System.out.println();
+		this.editorWidget = makeEditorWidget(navigationWidth + padding, top,
+				width - navigationWidth - twoPadding, widgetHeight);
 
 		addDrawable(this.navigationWidget);
 		addDrawable(this.editorWidget);
@@ -62,21 +63,21 @@ public abstract class BaseMenuScreen extends Screen {
 
 		// init positions
 		float x = width;
-		float y = 16;
+		float y = topBarHeight;
 		float u = x / 32f;
 		float v = y / 32f;
 
 		//init color
-		int r = 64;
-		int g = 64;
-		int b = 64;
-		int a = 255;
+		int red = 64;
+		int green = 64;
+		int blue = 64;
+		int alpha = 255;
 
 		// set vertices
-		bufferBuilder.vertex(0, y, 0).texture(0, v).color(r, g, b, a).next();
-		bufferBuilder.vertex(x, y, 0).texture(u, v).color(r, g, b, a).next();
-		bufferBuilder.vertex(x, 0, 0).texture(u, 0).color(r, g, b, a).next();
-		bufferBuilder.vertex(0, 0, 0).texture(0, 0).color(r, g, b, a).next();
+		bufferBuilder.vertex(0, y, 0).texture(0, v).color(red, green, blue, alpha).next();
+		bufferBuilder.vertex(x, y, 0).texture(u, v).color(red, green, blue, alpha).next();
+		bufferBuilder.vertex(x, 0, 0).texture(u, 0).color(red, green, blue, alpha).next();
+		bufferBuilder.vertex(0, 0, 0).texture(0, 0).color(red, green, blue, alpha).next();
 
 		// actually draw textures
 		tessellator.draw();
@@ -89,6 +90,39 @@ public abstract class BaseMenuScreen extends Screen {
 	@Override
 	public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
 		return super.keyPressed(keyCode, scanCode, modifiers);
+	}
+
+	@Override
+	public boolean mouseScrolled(double mouseX, double mouseY, double amount) {
+		if (this.navigationWidget.isMouseOver(mouseX, mouseY)) {
+			return this.navigationWidget.mouseScrolled(mouseX, mouseY, amount);
+		}
+		if (this.editorWidget.isMouseOver(mouseX, mouseY)) {
+			return this.editorWidget.mouseScrolled(mouseX, mouseY, amount);
+		}
+		return super.mouseScrolled(mouseX, mouseY, amount);
+	}
+
+	@Override
+	public boolean mouseClicked(double mouseX, double mouseY, int button) {
+		if (this.navigationWidget.isMouseOver(mouseX, mouseY)) {
+			return this.navigationWidget.mouseClicked(mouseX, mouseY, button);
+		}
+		if (this.editorWidget.isMouseOver(mouseX, mouseY)) {
+			return this.editorWidget.mouseClicked(mouseX, mouseY, button);
+		}
+		return super.mouseClicked(mouseX, mouseY, button);
+	}
+
+	@Override
+	public boolean mouseDragged(double mouseX, double mouseY, int button, double deltaX, double deltaY) {
+		if (this.navigationWidget.isMouseOver(mouseX, mouseY)) {
+			return this.navigationWidget.mouseDragged(mouseX, mouseY, button, deltaX, deltaY);
+		}
+		if (this.editorWidget.isMouseOver(mouseX, mouseY)) {
+			return this.editorWidget.mouseDragged(mouseX, mouseY, button, deltaX, deltaY);
+		}
+		return super.mouseDragged(mouseX, mouseY, button, deltaX, deltaY);
 	}
 
 	@Override

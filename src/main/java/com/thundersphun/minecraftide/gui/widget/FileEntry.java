@@ -26,4 +26,8 @@ public class FileEntry extends EntryListWidget.Entry<FileEntry> {
 		MinecraftClient.getInstance().textRenderer.draw(matrices, this.localizedPath.toString(), x, y / TEXT_SCALE, 0xFFFFFFFF);
 		matrices.pop();
 	}
+
+	public int getWidth() {
+		return this.localizedPath.toString().length();
+	}
 }
