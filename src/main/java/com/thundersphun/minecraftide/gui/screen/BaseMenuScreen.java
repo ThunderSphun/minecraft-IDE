@@ -3,6 +3,8 @@ package com.thundersphun.minecraftide.gui.screen;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.thundersphun.minecraftide.gui.widget.EditorWidget;
 import com.thundersphun.minecraftide.gui.widget.FileListWidget;
+import com.thundersphun.minecraftide.gui.widget.ScrollWidget;
+import com.thundersphun.minecraftide.util.Orientation;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.render.*;
@@ -37,8 +39,12 @@ public abstract class BaseMenuScreen extends Screen {
 		this.editorWidget = makeEditorWidget(navigationWidth + padding, top,
 				width - navigationWidth - twoPadding, widgetHeight);
 
-		addDrawable(this.navigationWidget);
-		addDrawable(this.editorWidget);
+//		addDrawable(this.navigationWidget);
+//		addDrawable(this.editorWidget);
+
+
+		addDrawable(new ScrollWidget(10, 10, 50, 0, 100, Orientation.VERTICAL));
+		addDrawable(new ScrollWidget(10, 10, 50, 0, 100, Orientation.HORIZONTAL));
 	}
 
 	protected abstract EditorWidget makeEditorWidget(int x, int y, int width, int height);
